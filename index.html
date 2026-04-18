@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>뉴런 활동전위 시뮬레이션</title>
+    <!-- 폰트: 모던하고 깔끔한 Noto Sans KR 과 Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+KR:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 왼쪽 메뉴 영역 -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="title">신경 세포의<br>활동 전위</h1>
+                <p class="subtitle">Action Potential in Neuron</p>
+            </div>
+            
+            <div class="menu-section">
+                <h2>시뮬레이션 단계</h2>
+                <div class="steps-container">
+                    <button class="step-btn active" data-step="resting">
+                        <span class="step-num">1</span>
+                        <span class="step-text">휴지 전위 (분극)</span>
+                    </button>
+                    <button class="step-btn" data-step="depolarization">
+                        <span class="step-num">2</span>
+                        <span class="step-text">탈분극 (Na⁺ 유입)</span>
+                    </button>
+                    <button class="step-btn" data-step="repolarization">
+                        <span class="step-num">3</span>
+                        <span class="step-text">재분극 (K⁺ 유출)</span>
+                    </button>
+                    <button class="step-btn" data-step="pump">
+                        <span class="step-num">4</span>
+                        <span class="step-text">이온 펌프 작동</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="info-panel">
+                <h3 class="info-title">현재 상태해설</h3>
+                <div id="status-content" class="info-content">
+                    <!-- JS에서 동적으로 내용이 채워집니다 -->
+                </div>
+            </div>
+
+            <div class="controls-section">
+                <h2>화면 조절</h2>
+                <div class="zoom-controls">
+                    <button id="zoom-out" class="control-btn" title="축소">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"></path></svg>
+                    </button>
+                    <button id="zoom-reset" class="control-btn center-btn">초기화</button>
+                    <button id="zoom-in" class="control-btn" title="확대">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"></path></svg>
+                    </button>
+                </div>
+                <p class="touch-hint">✌️ 두 손가락으로 확대/축소가 가능합니다.</p>
+            </div>
+            <div class="legend-section">
+                <h2>범례 (Legend)</h2>
+                <div class="legend-grid">
+                    <div class="legend-item"><span class="color-box na-color"></span> <span class="legend-text">Na⁺ 이온</span></div>
+                    <div class="legend-item"><span class="color-box k-color"></span> <span class="legend-text">K⁺ 이온</span></div>
+                    <div class="legend-item"><span class="color-box pump-color"></span> <span class="legend-text">Na⁺-K⁺ 펌프</span></div>
+                    <div class="legend-item"><span class="color-box nach-color"></span> <span class="legend-text">Na⁺ 통로</span></div>
+                    <div class="legend-item"><span class="color-box kch-color"></span> <span class="legend-text">K⁺ 통로</span></div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 오른쪽 패널 (전위 그래프 프레임을 중앙 캔버스 좌측으로 이동) -->
+        <aside class="sidebar right-sidebar">
+            <div class="graph-section">
+                <h2>
+                    <span>전위 변화 그래프</span>
+                    <button id="graph-expand-btn" class="expand-btn">🔍 크게 보기</button>
+                </h2>
+                <div class="graph-container" id="main-graph-container">
+                    <canvas id="graph-canvas"></canvas>
+                </div>
+            </div>
+            
+            <div class="info-panel extra-info" style="margin-top: 20px;">
+                <h3 class="info-title">막 전위(Membrane Potential)</h3>
+                <div class="info-content">
+                    세포 안팎의 이온 농도 차이와 통로의 개폐에 의해 막 전위가 변동합니다.<br><br>
+                    • <b>휴지 전위</b>: -70mV 내외<br>
+                    • <b>탈분극</b>: Na⁺ 유입 (+35mV)<br>
+                    • <b>재분극</b>: K⁺ 유출 (-80mV)<br>
+                    • <b>이온 재배치</b>: 펌프 작동으로 회복
+                </div>
+            </div>
+        </aside>
+
+        <!-- 메인 캔버스 영역 (제일 우측으로 밀림) -->
+        <main class="main-content">
+            <div id="canvas-container">
+                <canvas id="sim-canvas"></canvas>
+            </div>
+            <div class="overlay-grad"></div>
+        </main>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
